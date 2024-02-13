@@ -1,0 +1,14 @@
+#cloud-config
+
+runcmd:
+  - curl -L https://aka.ms/InstallAzureCLIDeb | bash
+  - az login --identity --username dd98121b-29f4-40fa-ae67-56529c8b9ea4
+  - az account show
+#  - az keyvault secret download --name githubkey --vault-name AG-keyvault1 --file ~/.ssh/id_rsa.pem
+#  - chmod 600 ~/.ssh/id_rsa.pem
+  - echo "az login --identity --username dd98121b-29f4-40fa-ae67-56529c8b9ea4" >> /home/azureuser/.bashrc
+  - echo 'CONTENT_SAFETY_KEY=$(az cognitiveservices account keys list --name AG-AACS --resource-group AGs_resource -o tsv --query key1)' >> /home/azureuser/.bashrc
+  - echo 'CONTENT_SAFETY_ENDPOINT=$(az cognitiveservices account show --name AG-AACS --resource-group AGs_resource --query "properties.endpoint" -o tsv)' >> /home/azureuser/.bashrc
+  - echo 'export CONTENT_SAFETY_KEY=$CONTENT_SAFETY_KEY' >> /home/azureuser/.bashrc
+  - echo 'export CONTENT_SAFETY_ENDPOINT=$CONTENT_SAFETY_ENDPOINT' >> /home/azureuser/.bashrc
+
